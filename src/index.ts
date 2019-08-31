@@ -6,6 +6,50 @@ export type Box = {
 };
 
 export function* createBoxGenerator({
+  initial,
+}: {
+  initial: Box;
+}): IterableIterator<Box> {
+  for (let box of createSmallBoxGenerator({
+    length: randomNumber({
+      from: initial.width + 1,
+      to: initial.width * 5,
+    }),
+  })) {
+    yield box;
+  }
+
+  for (let box of createSmallBoxGenerator({
+    length: randomNumber({
+      from: initial.height + 1,
+      to: initial.height * 5,
+    }),
+  })) {
+    yield box;
+  }
+
+  for (let box of createSmallBoxGenerator({
+    length: randomNumber({ from: 1, to: initial.width - 1 }),
+  })) {
+    yield box;
+  }
+
+  for (let box of createSmallBoxGenerator({
+    length: randomNumber({ from: 1, to: initial.height - 1 }),
+  })) {
+    yield box;
+  }
+
+  for (let box of createSmallBoxGenerator({ length: initial.width })) {
+    yield box;
+  }
+
+  for (let box of createSmallBoxGenerator({ length: initial.height })) {
+    yield box;
+  }
+}
+
+function* createSmallBoxGenerator({
   length,
 }: {
   length: number;
@@ -15,31 +59,6 @@ export function* createBoxGenerator({
   yield createBoxWithWidth({ shape: 'square', width: length });
   yield createBoxWithHeight({ shape: 'portrait', height: length });
   yield createBoxWithHeight({ shape: 'landscape', height: length });
-}
-
-export function getRandomBoxes({ initial }: { initial: Box }): Box[] {
-  return [
-    ...createBoxGenerator({
-      length: randomNumber({
-        from: initial.width + 1,
-        to: initial.width * 5,
-      }),
-    }),
-    ...createBoxGenerator({
-      length: randomNumber({
-        from: initial.height + 1,
-        to: initial.height * 5,
-      }),
-    }),
-    ...createBoxGenerator({
-      length: randomNumber({ from: 1, to: initial.width - 1 }),
-    }),
-    ...createBoxGenerator({
-      length: randomNumber({ from: 1, to: initial.height - 1 }),
-    }),
-    ...createBoxGenerator({ length: initial.width }),
-    ...createBoxGenerator({ length: initial.height }),
-  ];
 }
 
 type Shape = 'square' | 'landscape' | 'portrait';

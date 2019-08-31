@@ -1,8 +1,10 @@
-import { getRandomBoxes } from '../src';
+import { createBoxGenerator } from '../src';
 
-describe(getRandomBoxes.name, () => {
+describe(createBoxGenerator.name, () => {
   it('works', () => {
-    const boxes = getRandomBoxes({ initial: { width: 100, height: 100 } });
+    const boxes = [
+      ...createBoxGenerator({ initial: { width: 100, height: 100 } }),
+    ];
 
     expect(
       boxes.filter(box => box.width === 100 && box.height === 100).length
